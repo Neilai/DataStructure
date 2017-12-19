@@ -169,7 +169,6 @@ bool AVLTree<T>::__insertAVL(AVLNode<T> *&t,T e ,bool &taller)
     
     if(t == NULL)  
     {  
-        
         t = new AVLNode<T>(e);             //判断是否为空树
         taller = true;  
     }  
@@ -182,6 +181,7 @@ bool AVLTree<T>::__insertAVL(AVLNode<T> *&t,T e ,bool &taller)
         }  
         else if(LT(e, t->data)) //在左子树中查找插入点   
         {  
+
             if(!__insertAVL(t->lchild, e, taller))//左子树插入失败   
             {  
                 return false;  
@@ -308,9 +308,10 @@ void AVLTree<T>::rightBalance(AVLNode<T>* &t)
                     rc->bf = EH;  
                     break;  
             }  
-            ld->bf = EH;  
+            ld->bf = EH; 
             R_Rotate(t->rchild);//不能写R_Rotate(rc);采用的是引用参数   
             L_Rotate(t);  
+            
             break;  
               
         case EH:                //deleteAVL需要，insertAVL用不着   
@@ -326,13 +327,20 @@ void AVLTree<T>::rightBalance(AVLNode<T>* &t)
             break;  
     }  
 }  
+
 template<typename T>
 void AVLTree<T>::L_Rotate(AVLNode<T> *&p){
 	AVLNode<T> *rc=NULL;
 	rc=p->rchild;
 	p->rchild=rc->lchild;
 	rc->lchild=p;
-	p=rc;
+	
+    /*
+      这一点非常重要，要保证父亲结点指向新的结点
+      这里不改变父结点的指向，而是直接改变儿子结点的结构
+    */
+
+    p=rc;
 }
 
 template<typename T>

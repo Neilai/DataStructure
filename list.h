@@ -35,11 +35,13 @@ public:
 private:
 	ListNode<T> * plist;
 };
+
 template<typename T>
 ListNode<T> *List<T>::operator[](int pos)
 {
 	return getnode(pos);
 }
+
 template<typename T>
 T List<T>::get(int pos)
 {

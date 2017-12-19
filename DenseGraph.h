@@ -1,4 +1,5 @@
 #include<vector>
+#include<queue>
 #include<cassert>
 #include<iostream>
 using namespace std;
@@ -16,7 +17,7 @@ private:
 	bool directed;
 	double **g;
 public:
-	DenseGraph(int n, bool directed) {
+	DenseGraph(int n, bool directed=1) {
 		assert(n >= 0);
 		this->v = n;
 		this->e = 0;
@@ -29,6 +30,7 @@ public:
 			for (int j = 0; j < n; j++)
 				g[i][j] = -1;
 	}
+	
 	Edge getedge(int from, int to) {
 		return Edge(from, to, g[from][to]);
 	}
@@ -40,6 +42,7 @@ public:
 			g[to][from] = weight;
 		e++;
 	}
+	
 	void show() {
 		for (int i = 0; i < v; i++) {
 			cout << "vertex " << i << " :" << ends;
@@ -50,6 +53,50 @@ public:
 			cout << endl;
 		}
 	}
+
+	void __DFS(int pos,int visited[]){
+		adjIterator iter(*this,pos);
+		visited[pos]=1;
+		cout<<"visit vertex "<<pos<<endl;		
+		for(Edge e=iter.begin();!iter.end();e=iter.next()){
+			if(!visited[e.to])
+				__DFS(e.to,visited);
+		}
+	}
+	
+	void DFS(int pos){
+        int visited[v];
+        for(int i=0;i<v;i++)
+         	visited[i]=0;       
+        __DFS(pos,visited);
+	}
+
+	void __BFS(int pos,int *visited){
+		queue<int> q;
+		q.push(pos);
+		visited[pos]=1;
+		while(!q.empty()){
+			int cur=q.front();	
+			q.pop();
+			cout<<"visit vertex "<<cur<<endl;
+			adjIterator iter(*this,cur);
+			for(Edge e=iter.begin();!iter.end();e=iter.next()){				
+				if(!visited[e.to]){
+					visited[e.to]=1;
+					q.push(e.to);
+				}
+			}
+		}
+	}
+
+	void BFS(int pos){
+		int visited[v];
+		for(int i=0;i<v;i++)
+			visited[i]=0;
+		__BFS(pos,visited);
+	}
+
+
 	class adjIterator {
 	private:
 		DenseGraph &G;
