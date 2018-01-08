@@ -1,5 +1,6 @@
 #include<vector>
 #include<queue>
+#include<stack>
 #include<cassert>
 #include<iostream>
 using namespace std;
@@ -233,6 +234,31 @@ public:
         for(int i=0;i<v;i++)
          	visited[i]=0;       
         __DFS(pos,visited);
+	}
+
+	void DFS2(int pos){
+		int visited[v];
+		stack<int> s;
+		for(int i=0;i<v;i++)
+         	visited[i]=0; 
+        s.push(pos);
+        while(!s.empty()){
+        	int cur=s.top();
+        	int flag=0;
+        	adjIterator iter(*this,cur);
+        	//这个地方不要急着pop 应该是压入一个就算访问，完全没有可以push了再pop
+        	for(Edge e=iter.begin();!iter.end();e=iter.next()){				
+				if(!visited[e.to]){
+					s.push(e.to);
+					visited[e.to]=1;
+					flag=1;
+					cout<<"visit vertex "<<e.to<<endl;
+					break;
+				}
+			}
+			if(!flag)
+				s.pop();
+		}
 	}
 
 	void __BFS(int pos,int *visited){

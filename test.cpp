@@ -1,11 +1,14 @@
 #include<iostream>
-#include"UnionFind.h"
+#include"SparseGraph.h"
 using namespace std;
 int main(){
-	UnionFind set(10);
-	set.merge(1,2);
-	set.merge(2,3);
-	set.merge(3,4);
-	cout<<set.getNum(0);
-	return 1;
+	SparseGraph G(5);
+	G.addedge(0,1,3);
+	G.addedge(0,2,3);
+	G.addedge(0,3,3);
+	G.addedge(1,3,3);
+	G.addedge(2,4,3);
+	G.addedge(2,3,3);
+	G.addedge(2,3,3);
+	G.DFS2(4);	
 }
