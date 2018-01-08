@@ -11,15 +11,20 @@ template<typename T>
 class List
 {
 public:
+
 	List():plist(nullptr){ }
+	
 	List(T a[], int n) {
 		for (int i = 0; i < n; i++)
 			insert(i, a[i]);
 	}
+
 	void push(T item);	
 	T front();
+	
 	void clear();
 	void show();
+	
 	T get( int pos);
 	int  getlength();
 	void insert(int pos,T item);
